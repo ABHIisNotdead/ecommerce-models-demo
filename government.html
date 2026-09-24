@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Sector Education | NextGen Edu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* DESIGN SYSTEM */
+    :root {
+      --bg-primary: #07070d;
+      --bg-secondary: #0e0e1a;
+      --neon-cyan: #00e5ff;
+      --neon-purple: #a855f7;
+      --neon-pink: #f43f5e;
+      --neon-blue: #3b82f6;
+      --text-primary: #eaeaf0;
+      --text-secondary: #9494aa;
+      --text-muted: #5e5e78;
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --glass-bg: rgba(18, 18, 33, 0.65);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 10px; }
+    
+    h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
+
+    /* EXACT NAVIGATION BAR CSS */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(7, 7, 13, 0.7);
+      backdrop-filter: blur(20px) saturate(1.6);
+      border-bottom: 1px solid var(--glass-border);
+      transition: all 0.4s ease;
+    }
+    .navbar.scrolled { padding: 12px 48px; background: rgba(7, 7, 13, 0.92); }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.35rem;
+      color: var(--text-primary); text-decoration: none;
+    }
+    .nav-brand .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 800; color: var(--bg-primary);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+    }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 0.84rem; font-weight: 500; transition: color 0.3s;
+      position: relative; padding: 6px 12px; border-radius: 8px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 12px; right: 12px; width: auto; height: 2px;
+      background: var(--neon-cyan); transition: opacity 0.3s;
+      box-shadow: 0 0 8px var(--neon-cyan); opacity: 0;
+    }
+    .nav-links a:hover { color: var(--neon-cyan); background: rgba(0, 229, 255, 0.05); }
+    .nav-links a:hover::after { opacity: 1; }
+    .nav-links .active-link { color: var(--neon-cyan); background: rgba(0, 229, 255, 0.08); }
+    .nav-links .active-link::after { opacity: 1; }
+    
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 60px;
+      position: relative;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,229,255,0.15) 0%, rgba(59,130,246,0.1) 40%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      border-radius: 50%;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--neon-cyan);
+      margin-bottom: 24px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.2); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
+    }
+    .hero h1 {
+      font-size: 4.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+      max-width: 900px;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin-bottom: 40px;
+    }
+
+    /* Stats Section */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+    }
+    .stat-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    .stat-val {
+      font-size: 2rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Sections Shared */
+    .section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-title span {
+      color: var(--neon-cyan);
+    }
+
+    /* Programs Grid */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .tilt-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.1s;
+      transform-style: preserve-3d;
+    }
+    .card-thumbnail {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-thumbnail-bg {
+      position: absolute; inset: 0;
+    }
+    .card-gif {
+      width: 100%; height: 100%;
+      object-fit: cover; position: absolute;
+      top: 0; left: 0; opacity: 0.7;
+      transition: opacity 0.4s, transform 0.6s;
+    }
+    .tilt-card:hover .card-gif {
+      opacity: 1; transform: scale(1.05);
+    }
+    .card-content {
+      padding: 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+    .card-metric {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 4px 12px;
+      background: rgba(0, 229, 255, 0.1);
+      color: var(--neon-cyan);
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .btn-outline {
+      display: inline-block;
+      width: 100%;
+      padding: 12px;
+      text-align: center;
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: var(--neon-cyan);
+      color: var(--bg-primary);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    /* Form Section */
+    .form-section {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 48px;
+      max-width: 800px;
+      margin: 80px auto;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .form-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+    }
+    .form-section h2 {
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 2rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+    .form-group label {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .form-control {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--neon-cyan);
+    }
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239494aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1em;
+    }
+    select.form-control option { background: var(--bg-primary); }
+    textarea.form-control { resize: vertical; min-height: 120px; }
+    .btn-submit {
+      grid-column: 1 / -1;
+      padding: 16px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+    }
+    .btn-submit:hover {
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Trusted By */
+    .trusted-by {
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid var(--glass-border);
+      background: linear-gradient(to bottom, transparent, rgba(0, 229, 255, 0.02));
+    }
+    .trusted-title {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .trusted-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+    .trusted-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: color 0.3s;
+    }
+    .trusted-logo:hover { color: var(--text-primary); }
+
+    /* Footer */
+    .footer {
+      padding: 60px 48px 40px;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+    }
+    .footer-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover {
+      color: var(--neon-cyan);
+    }
+    .footer p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .toast {
+      background: var(--glass-bg);
+      border: 1px solid var(--neon-cyan);
+      color: var(--text-primary);
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(0, 229, 255, 0.2);
+      transform: translateX(120%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .toast.show { transform: translateX(0); }
+
+    /* Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .hero h1 { font-size: 3rem; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .programs-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .stats-bar { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .form-section { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- EXACT NAVIGATION BAR HTML -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="logo-icon">N</span>
+      NextGen Edu
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="instructor.html">Teach For Us</a></li>
+      <li><a href="business.html">For Business</a></li>
+      <li><a href="marketplace.html">Marketplace</a></li>
+      <li><a href="university.html">University</a></li>
+      <li><a href="government.html" class="active-link">Public Sector</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-glow"></div>
+    <div class="badge reveal">🏛️ Government Programs</div>
+    <h1 class="reveal">Public Sector Education</h1>
+    <p class="reveal">Deploy our educational library across state-run skill development programs and public schools. Request a public sector contract proposal.</p>
+  </header>
+
+  <!-- Impact Stats Bar -->
+  <div class="stats-bar reveal">
+    <div class="stat-card">
+      <div class="stat-val">15</div>
+      <div class="stat-label">State Governments</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">2,500+</div>
+      <div class="stat-label">Public Schools</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">1.2M+</div>
+      <div class="stat-label">Students Reached</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">₹50Cr+</div>
+      <div class="stat-label">in Govt. Contracts</div>
+    </div>
+  </div>
+
+  <!-- Government Programs Section -->
+  <section class="section">
+    <h2 class="section-title reveal">Active <span>Government Initiatives</span></h2>
+    <div class="programs-grid reveal">
+      
+      <div class="tilt-card">
+        <div class="card-thumbnail">
+          <div class="card-thumbnail-bg" style="background: linear-gradient(135deg, #0f172a, #0c4a6e);">
+            <img src="https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif" alt="Digital Literacy" class="card-gif" />
+          </div>
+        </div>
+        <div class="card-content">
+          <span class="card-metric">500+ Districts</span>
+          <h3 class="card-title">National Digital Literacy Mission</h3>
+          <p class="card-desc">Partnering with the Ministry of Education to deliver digital skills training across 500+ rural districts. Covering basic computing, internet safety, and digital payments.</p>
+          <a href="#" class="btn-outline">Learn More</a>
+        </div>
+      </div>
+
+      <div class="tilt-card">
+        <div class="card-thumbnail">
+          <div class="card-thumbnail-bg" style="background: linear-gradient(135deg, #0f172a, #1e3a8a);">
+            <img src="https://media.giphy.com/media/bGgsc5mWoryfgKBx1u/giphy.gif" alt="Skill Development" class="card-gif" />
+          </div>
+        </div>
+        <div class="card-content">
+          <span class="card-metric">12 States</span>
+          <h3 class="card-title">State Skill Development Program</h3>
+          <p class="card-desc">Deployed in 12 states to upskill youth in emerging technologies. Tracks include AI, Web Development, Cloud Computing, and Data Science.</p>
+          <a href="#" class="btn-outline">Learn More</a>
+        </div>
+      </div>
+
+      <div class="tilt-card">
+        <div class="card-thumbnail">
+          <div class="card-thumbnail-bg" style="background: linear-gradient(135deg, #0f172a, #164e63);">
+            <img src="https://media.giphy.com/media/L1R1tvI9svkIWwpVYr/giphy.gif" alt="STEM Enhancement" class="card-gif" />
+          </div>
+        </div>
+        <div class="card-content">
+          <span class="card-metric">Classes 8-12</span>
+          <h3 class="card-title">Public School STEM Enhancement</h3>
+          <p class="card-desc">Supplementary STEM curriculum for classes 8-12 across government schools. Interactive labs, coding exercises, and teacher training modules.</p>
+          <a href="#" class="btn-outline">Learn More</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Why Governments Choose Us -->
+  <section class="section">
+    <h2 class="section-title reveal">Why <span>Governments</span> Choose Us</h2>
+    <div class="features-grid reveal">
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-title">STQC Certified Platform</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🇮🇳</div>
+        <div class="feature-title">Data Sovereignty<br><span style="font-size: 0.8rem; color: var(--text-secondary);">(India-hosted)</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗣️</div>
+        <div class="feature-title">Vernacular Language Support<br><span style="font-size: 0.8rem; color: var(--text-secondary);">(12+ languages)</span></div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">Compliance & Audit Ready</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formal Government Contact Form -->
+  <section class="section">
+    <div class="form-section reveal">
+      <h2>Request a Public Sector Contract Proposal</h2>
+      <form id="govForm" class="form-grid" onsubmit="event.preventDefault(); showToast('Proposal Request Submitted Successfully. Our Govt. Relations Team will contact you shortly.');">
+        
+        <div class="form-group">
+          <label for="deptName">Department / Organization Name</label>
+          <input type="text" id="deptName" class="form-control" required placeholder="e.g. Dept of Technical Education">
+        </div>
+
+        <div class="form-group">
+          <label for="contactName">Contact Person Name</label>
+          <input type="text" id="contactName" class="form-control" required placeholder="Full Name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Official Email Address</label>
+          <input type="email" id="email" class="form-control" required placeholder="name@gov.in">
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" class="form-control" required placeholder="+91">
+        </div>
+
+        <div class="form-group">
+          <label for="state">State / UT</label>
+          <select id="state" class="form-control" required>
+            <option value="" disabled selected>Select State</option>
+            <option value="MH">Maharashtra</option>
+            <option value="KA">Karnataka</option>
+            <option value="TN">Tamil Nadu</option>
+            <option value="DL">Delhi</option>
+            <option value="UP">Uttar Pradesh</option>
+            <option value="RJ">Rajasthan</option>
+            <option value="KL">Kerala</option>
+            <option value="GJ">Gujarat</option>
+            <option value="TS">Telangana</option>
+            <option value="WB">West Bengal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="programType">Type of Program</label>
+          <select id="programType" class="form-control" required>
+            <option value="" disabled selected>Select Program</option>
+            <option value="dl">Digital Literacy</option>
+            <option value="sd">Skill Development</option>
+            <option value="stem">School STEM</option>
+            <option value="tt">Teacher Training</option>
+            <option value="custom">Custom Program</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label for="beneficiaries">Estimated Number of Beneficiaries</label>
+          <select id="beneficiaries" class="form-control" required>
+            <option value="" disabled selected>Select Estimate</option>
+            <option value="u1k">Under 1,000</option>
+            <option value="1k-10k">1,000 - 10,000</option>
+            <option value="10k-100k">10,000 - 1,00,000</option>
+            <option value="100k+">1,00,000+</option>
+          </select>
+        </div>
+
+        <div class="form-group full">
+          <label for="reqs">Additional Requirements</label>
+          <textarea id="reqs" class="form-control" placeholder="Briefly describe your objectives..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Submit Proposal Request</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Trusted By Section -->
+  <section class="trusted-by reveal">
+    <div class="trusted-title">Trusted By Leading Government Bodies</div>
+    <div class="trusted-logos">
+      <div class="trusted-logo">Ministry of Education</div>
+      <div class="trusted-logo">NSDC</div>
+      <div class="trusted-logo">Skill India</div>
+      <div class="trusted-logo">Digital India</div>
+      <div class="trusted-logo">AICTE</div>
+      <div class="trusted-logo">UGC</div>
+    </div>
+  </section>
+
+  <!-- EXACT FOOTER HTML -->
+  <footer class="footer">
+    <div class="footer-brand">NextGen Edu</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="instructor.html">Teach For Us</a>
+      <a href="business.html">For Business</a>
+      <a href="marketplace.html">Marketplace</a>
+      <a href="university.html">University</a>
+      <a href="government.html">Public Sector</a>
+    </div>
+    <p>© 2026 NextGen Edu. All rights reserved. The future of education, streamed.</p>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Navbar Scroll Effect
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Intersection Observer for Reveal Animations
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // 3D Tilt Effect on Cards
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / centerY * -20;
+        const rotateY = (x - centerX) / centerX * 20;
+        card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        card.style.boxShadow = `${rotateY*1.5}px ${-rotateX*1.5}px 40px rgba(0,0,0,0.5), ${rotateY*0.5}px ${-rotateX*0.5}px 80px rgba(0,229,255,0.12)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
+        card.style.boxShadow = '';
+      });
+    });
+
+    // Toast Notification System
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `
+        <span style="color: var(--neon-cyan); font-size: 1.2rem;">✓</span>
+        <div>${message}</div>
+      `;
+      container.appendChild(toast);
+      
+      // Trigger reflow
+      toast.offsetHeight;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+  </script>
+</body>
+</html>

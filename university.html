@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Degrees - NextGen Edu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #07070d;
+      --bg-secondary: #0e0e1a;
+      --neon-cyan: #00e5ff;
+      --neon-purple: #a855f7;
+      --neon-pink: #f43f5e;
+      --neon-blue: #3b82f6;
+      --text-primary: #eaeaf0;
+      --text-secondary: #9494aa;
+      --text-muted: #5e5e78;
+      --glass-border: rgba(255,255,255,0.06);
+      --glass-bg: rgba(18,18,33,0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      background-attachment: fixed;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--neon-cyan);
+      border-radius: 10px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(7, 7, 13, 0.7);
+      backdrop-filter: blur(20px) saturate(1.6);
+      border-bottom: 1px solid var(--glass-border);
+      transition: all 0.4s ease;
+    }
+    .navbar.scrolled { padding: 12px 48px; background: rgba(7, 7, 13, 0.92); }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.35rem;
+      color: var(--text-primary); text-decoration: none;
+    }
+    .nav-brand .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 800; color: var(--bg-primary);
+      box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+    }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 0.84rem; font-weight: 500; transition: color 0.3s;
+      position: relative; padding: 6px 12px; border-radius: 8px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 12px; right: 12px; width: auto; height: 2px;
+      background: var(--neon-cyan); transition: opacity 0.3s;
+      box-shadow: 0 0 8px var(--neon-cyan); opacity: 0;
+    }
+    .nav-links a:hover { color: var(--neon-cyan); background: rgba(0, 229, 255, 0.05); }
+    .nav-links a:hover::after { opacity: 1; }
+    .nav-links .active-link { color: var(--neon-cyan); background: rgba(0, 229, 255, 0.08); }
+    .nav-links .active-link::after { opacity: 1; }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .navbar { padding: 18px 24px; }
+      .navbar.scrolled { padding: 12px 24px; }
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 160px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; left: 50%;
+      transform: translateX(-50%);
+      width: 80vw; height: 80vw;
+      max-width: 800px; max-height: 800px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(168, 85, 247, 0.05) 40%, transparent 70%);
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(40px);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--neon-blue);
+      margin-bottom: 24px;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+      animation: pulseBadge 3s infinite;
+    }
+    @keyframes pulseBadge {
+      0% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+      50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.4); }
+      100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.1;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+
+    /* General Section Layout */
+    .section {
+      padding: 80px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 48px;
+      color: var(--text-primary);
+    }
+    .grid-3x2 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+    .grid-4x1 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .grid-3x1 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .grid-3x2, .grid-2x2, .grid-4x1, .grid-3x1 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cards */
+    .tilt-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all 0.3s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .tilt-card:hover {
+      border-color: rgba(0, 229, 255, 0.3);
+    }
+
+    /* Partner Logos */
+    .partner-card {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      min-height: 200px;
+    }
+    .partner-icon {
+      font-size: 3rem;
+    }
+    .partner-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    /* Program Cards */
+    .program-card {
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-thumbnail {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+    .card-thumbnail-bg {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #0f172a, #1e1b4b);
+      position: relative;
+    }
+    .card-gif {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0.6;
+      transition: opacity 0.4s, transform 0.6s;
+    }
+    .program-card:hover .card-gif {
+      opacity: 0.9;
+      transform: scale(1.05);
+    }
+    .program-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .program-badge {
+      font-size: 0.8rem;
+      color: var(--neon-purple);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .program-title {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+    .program-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+    .program-highlight {
+      font-size: 0.9rem;
+      color: var(--neon-cyan);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn {
+      display: inline-block;
+      text-align: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+      color: #fff;
+      margin-top: auto;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Feature Cards */
+    .feature-card {
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      display: inline-block;
+      background: rgba(255,255,255,0.05);
+      width: 70px; height: 70px;
+      line-height: 70px;
+      border-radius: 50%;
+    }
+    .feature-title {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: var(--neon-cyan);
+    }
+    .feature-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Testimonials */
+    .testimonial-card {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .quote {
+      font-style: italic;
+      color: var(--text-primary);
+      font-size: 1.05rem;
+      margin-bottom: 16px;
+    }
+    .student-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+    }
+    .student-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold;
+      color: var(--bg-primary);
+    }
+    .student-name {
+      font-weight: 600;
+    }
+    .student-prog {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.1));
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 24px;
+      padding: 64px 24px;
+      text-align: center;
+      margin: 80px auto;
+      max-width: 900px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at center, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+    .cta-title {
+      font-size: 2.5rem;
+      margin-bottom: 24px;
+    }
+    .enroll-form {
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+    }
+    .form-select option {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--glass-border);
+      padding: 48px 24px;
+      text-align: center;
+      margin-top: 80px;
+    }
+    .footer-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover {
+      color: var(--neon-cyan);
+    }
+    .footer p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Toasts */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .toast {
+      background: rgba(18, 18, 33, 0.9);
+      border: 1px solid var(--neon-purple);
+      color: var(--text-primary);
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(168, 85, 247, 0.2);
+      transform: translateX(120%);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .toast.show {
+      transform: translateX(0);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-brand">
+      <span class="logo-icon">N</span>
+      NextGen Edu
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="instructor.html">Teach For Us</a></li>
+      <li><a href="business.html">For Business</a></li>
+      <li><a href="marketplace.html">Marketplace</a></li>
+      <li><a href="university.html" class="active-link">University</a></li>
+      <li><a href="government.html">Public Sector</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero reveal">
+    <div class="badge">🎓 Academic Partnerships</div>
+    <h1>Official University Degrees</h1>
+    <p>We partner with top institutions to deliver their official curriculum directly to you.</p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title reveal">Our University Partners</h2>
+    <div class="grid-3x2">
+      <div class="partner-card tilt-card reveal">
+        <div class="partner-icon">🏛️</div>
+        <div class="partner-name">Indian Institute of Digital Sciences (IIDS)</div>
+      </div>
+      <div class="partner-card tilt-card reveal">
+        <div class="partner-icon">🏛️</div>
+        <div class="partner-name">Global Tech University (GTU)</div>
+      </div>
+      <div class="partner-card tilt-card reveal">
+        <div class="partner-icon">🏛️</div>
+        <div class="partner-name">National Academy of AI & Robotics (NAAR)</div>
+      </div>
+      <div class="partner-card tilt-card reveal">
+        <div class="partner-icon">🏛️</div>
+        <div class="partner-name">Pacific School of Business (PSB)</div>
+      </div>
+      <div class="partner-card tilt-card reveal">
+        <div class="partner-icon">🏛️</div>
+        <div class="partner-name">European Institute of Cybersecurity (EIC)</div>
+      </div>
+      <div class="partner-card tilt-card reveal">
+        <div class="partner-icon">🏛️</div>
+        <div class="partner-name">Asian Centre for Data Analytics (ACDA)</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title reveal">Accredited Degree Programs</h2>
+    <div class="grid-2x2">
+      
+      <div class="program-card tilt-card reveal">
+        <div class="card-thumbnail">
+          <div class="card-thumbnail-bg">
+            <img src="https://media.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif" alt="CS Program" class="card-gif" />
+          </div>
+        </div>
+        <div class="program-content">
+          <div class="program-badge">IIDS Partnered</div>
+          <h3 class="program-title">B.Sc. in Computer Science</h3>
+          <div class="program-meta">
+            <span>⏱️ 3 years</span>
+            <span>💰 RS 45,000/semester</span>
+          </div>
+          <div class="program-highlight">✨ Fully online, UGC recognized</div>
+          <button class="btn btn-primary" onclick="showToast('Application portal opening soon for B.Sc. CS!')">Apply Now</button>
+        </div>
+      </div>
+
+      <div class="program-card tilt-card reveal">
+        <div class="card-thumbnail">
+          <div class="card-thumbnail-bg">
+            <img src="https://media.giphy.com/media/67ThRZlYBvibtdF9JH/giphy.gif" alt="MBA Program" class="card-gif" />
+          </div>
+        </div>
+        <div class="program-content">
+          <div class="program-badge">PSB Partnered</div>
+          <h3 class="program-title">MBA in Digital Business</h3>
+          <div class="program-meta">
+            <span>⏱️ 2 years</span>
+            <span>💰 RS 60,000/semester</span>
+          </div>
+          <div class="program-highlight">✨ AACSB accredited curriculum</div>
+          <button class="btn btn-primary" onclick="showToast('Application portal opening soon for MBA!')">Apply Now</button>
+        </div>
+      </div>
+
+      <div class="program-card tilt-card reveal">
+        <div class="card-thumbnail">
+          <div class="card-thumbnail-bg">
+            <img src="https://media.giphy.com/media/IZY2SE2JmPgFG/giphy.gif" alt="MTech AI" class="card-gif" />
+          </div>
+        </div>
+        <div class="program-content">
+          <div class="program-badge">GTU Partnered</div>
+          <h3 class="program-title">M.Tech in AI & Machine Learning</h3>
+          <div class="program-meta">
+            <span>⏱️ 2 years</span>
+            <span>💰 RS 55,000/semester</span>
+          </div>
+          <div class="program-highlight">✨ Industry capstone project included</div>
+          <button class="btn btn-primary" onclick="showToast('Application portal opening soon for M.Tech!')">Apply Now</button>
+        </div>
+      </div>
+
+      <div class="program-card tilt-card reveal">
+        <div class="card-thumbnail">
+          <div class="card-thumbnail-bg">
+            <img src="https://media.giphy.com/media/077i6AULCXc0FKTj9s/giphy.gif" alt="Cybersecurity" class="card-gif" />
+          </div>
+        </div>
+        <div class="program-content">
+          <div class="program-badge">EIC Partnered</div>
+          <h3 class="program-title">PG Diploma in Cybersecurity</h3>
+          <div class="program-meta">
+            <span>⏱️ 1 year</span>
+            <span>💰 RS 35,000/semester</span>
+          </div>
+          <div class="program-highlight">✨ NATO-standard curriculum</div>
+          <button class="btn btn-primary" onclick="showToast('Application portal opening soon for PG Diploma!')">Apply Now</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title reveal">Why Choose Us</h2>
+    <div class="grid-4x1">
+      <div class="feature-card tilt-card reveal">
+        <div class="feature-icon">📜</div>
+        <h3 class="feature-title">UGC Recognized Degrees</h3>
+        <p class="feature-desc">Earn fully recognized credentials accepted by employers worldwide.</p>
+      </div>
+      <div class="feature-card tilt-card reveal">
+        <div class="feature-icon">⏳</div>
+        <h3 class="feature-title">Learn at Your Pace</h3>
+        <p class="feature-desc">Flexible schedules designed for working professionals and busy students.</p>
+      </div>
+      <div class="feature-card tilt-card reveal">
+        <div class="feature-icon">💼</div>
+        <h3 class="feature-title">Industry-Ready Curriculum</h3>
+        <p class="feature-desc">Courses co-designed with top tech companies to ensure relevance.</p>
+      </div>
+      <div class="feature-card tilt-card reveal">
+        <div class="feature-icon">🌍</div>
+        <h3 class="feature-title">Global Alumni Network</h3>
+        <p class="feature-desc">Connect with peers and mentors from over 50 countries.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title reveal">Student Testimonials</h2>
+    <div class="grid-3x1">
+      <div class="testimonial-card tilt-card reveal">
+        <p class="quote">"The B.Sc. in CS from IIDS through NextGen gave me the foundation I needed. The fully online format meant I could intern while studying."</p>
+        <div class="student-info">
+          <div class="student-avatar">AK</div>
+          <div>
+            <div class="student-name">Aarav K.</div>
+            <div class="student-prog">B.Sc. Computer Science</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card tilt-card reveal">
+        <p class="quote">"Getting my MBA from PSB online was seamless. The capstone projects simulated real startup challenges perfectly."</p>
+        <div class="student-info">
+          <div class="student-avatar">SM</div>
+          <div>
+            <div class="student-name">Sneha M.</div>
+            <div class="student-prog">MBA Digital Business</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card tilt-card reveal">
+        <p class="quote">"The NATO-standard cybersecurity curriculum is intense but highly rewarding. I landed a SOC analyst role right after my PG Diploma."</p>
+        <div class="student-info">
+          <div class="student-avatar">DJ</div>
+          <div>
+            <div class="student-name">David J.</div>
+            <div class="student-prog">PG Diploma Cybersecurity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section">
+    <div class="cta-section reveal">
+      <div class="cta-content">
+        <h2 class="cta-title">Start Your Degree Journey Today</h2>
+        <form class="enroll-form" onsubmit="event.preventDefault(); showToast('Application submitted! We will contact you soon.'); this.reset();">
+          <input type="text" class="form-input" placeholder="Full Name" required>
+          <input type="email" class="form-input" placeholder="Email Address" required>
+          <select class="form-select" required>
+            <option value="" disabled selected>Select Program of Interest</option>
+            <option value="bsc">B.Sc. in Computer Science (IIDS)</option>
+            <option value="mba">MBA in Digital Business (PSB)</option>
+            <option value="mtech">M.Tech in AI & Machine Learning (GTU)</option>
+            <option value="pg">PG Diploma in Cybersecurity (EIC)</option>
+          </select>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Apply Now</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-brand">NextGen Edu</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="instructor.html">Teach For Us</a>
+      <a href="business.html">For Business</a>
+      <a href="marketplace.html">Marketplace</a>
+      <a href="university.html">University</a>
+      <a href="government.html">Public Sector</a>
+    </div>
+    <p>© 2026 NextGen Edu. All rights reserved. The future of education, streamed.</p>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Scroll reveal animation
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target);
+      });
+    }, revealOptions);
+
+    revealElements.forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // 3D CSS tilt on hoverable cards
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / centerY * -20;
+        const rotateY = (x - centerX) / centerX * 20;
+        card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        card.style.boxShadow = `${rotateY*1.5}px ${-rotateX*1.5}px 40px rgba(0,0,0,0.5), ${rotateY*0.5}px ${-rotateX*0.5}px 80px rgba(0,229,255,0.12)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(600px) rotateX(0) rotateY(0) scale(1)';
+        card.style.boxShadow = '';
+      });
+    });
+
+    // Toast notification system
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span>✨</span> <div>${message}</div>`;
+      container.appendChild(toast);
+      
+      // Trigger reflow for animation
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          container.removeChild(toast);
+        }, 300);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
