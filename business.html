@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NextGen For Business</title>
+  <title>LearnAxis For Business</title>
   <style>
     /* CSS Variables & Global Styles */
     :root {
@@ -52,13 +52,31 @@
       font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.35rem;
       color: var(--text-primary); text-decoration: none;
     }
-    .nav-brand .logo-icon {
+    .nav-brand .brand-logo {
       width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 800; color: var(--bg-primary);
+      border-radius: 10px; object-fit: cover;
       box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+    }
+    .footer-logo {
+      width: 28px; height: 28px; border-radius: 6px;
+      object-fit: cover; vertical-align: middle; margin-right: 8px;
+    }
+    .btn-demo-autofill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 8px; color: var(--neon-purple);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: all 0.3s;
+      margin-bottom: 12px;
+    }
+    .btn-demo-autofill:hover {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+      transform: translateY(-1px);
     }
     .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
     .nav-links a {
@@ -460,6 +478,137 @@
     }
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateY(10px); } }
+
+    /* B2B Spinner Overlay */
+    .b2b-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      z-index: 5000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .b2b-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .b2b-panel {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 24px;
+      width: 90%; max-width: 560px;
+      padding: 48px 40px;
+      text-align: center;
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s ease;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 80px rgba(0, 229, 255, 0.08);
+    }
+    .b2b-overlay.active .b2b-panel { transform: translateY(0) scale(1); }
+
+    /* Spinner */
+    .b2b-spinner {
+      width: 60px; height: 60px;
+      border: 4px solid rgba(0, 229, 255, 0.15);
+      border-top-color: var(--neon-cyan);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .b2b-spinner-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--neon-cyan);
+      animation: pulseFade 1.5s ease-in-out infinite;
+    }
+    @keyframes pulseFade {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    /* B2B Success Content (hidden initially) */
+    .b2b-success { animation: fadeInUp 0.6s ease-out; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .b2b-success .success-icon {
+      width: 80px; height: 80px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(59, 130, 246, 0.2));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
+    }
+
+    .b2b-diagram {
+      margin: 28px auto;
+      perspective: 800px;
+    }
+    .b2b-diagram-inner {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      animation: b2bFloat 4s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+    @keyframes b2bFloat {
+      0%, 100% { transform: rotateY(-8deg) rotateX(5deg) translateY(0); }
+      50% { transform: rotateY(8deg) rotateX(-5deg) translateY(-10px); }
+    }
+    .b2b-node {
+      width: 100px; height: 100px;
+      border-radius: 20px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 1px;
+      border: 1px solid;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+    .b2b-node:hover { transform: scale(1.1) translateZ(20px); }
+    .b2b-node .node-emoji { font-size: 1.8rem; margin-bottom: 6px; }
+    .b2b-node.biz1 {
+      background: rgba(59, 130, 246, 0.12);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: var(--neon-blue);
+    }
+    .b2b-node.biz2 {
+      background: rgba(0, 229, 255, 0.12);
+      border-color: rgba(0, 229, 255, 0.4);
+      color: var(--neon-cyan);
+    }
+    .b2b-arrow {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      color: var(--text-muted); font-size: 0.7rem; font-weight: 600;
+    }
+    .b2b-arrow .arrow-line {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+      position: relative; border-radius: 2px;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    }
+    .b2b-arrow .arrow-line::after {
+      content: '→'; position: absolute; right: -8px; top: -10px;
+      font-size: 1.2rem; color: var(--neon-cyan);
+    }
+    .b2b-explanation {
+      margin-top: 24px; padding: 20px;
+      background: rgba(0, 229, 255, 0.04);
+      border: 1px solid rgba(0, 229, 255, 0.12);
+      border-radius: 14px; font-size: 0.92rem;
+      color: var(--text-secondary); line-height: 1.7;
+    }
+    .b2b-explanation strong { color: var(--neon-cyan); }
+    .b2b-close {
+      margin-top: 24px; padding: 12px 36px;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+      color: var(--bg-primary); border: none; border-radius: 12px;
+      font-weight: 700; font-family: 'Inter', sans-serif;
+      cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .b2b-close:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 229, 255, 0.4); }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -468,8 +617,8 @@
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
     <a href="index.html" class="nav-brand">
-      <span class="logo-icon">N</span>
-      NextGen Edu
+      <img src="logo.png" alt="LearnAxis" class="brand-logo">
+      LearnAxis
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -484,7 +633,7 @@
   <!-- HERO -->
   <section class="hero reveal">
     <div class="badge">🏢 Enterprise Solutions</div>
-    <h1><span class="gradient-text">NextGen</span> For Business</h1>
+    <h1><span class="gradient-text">LearnAxis</span> For Business</h1>
     <p>Upskill your entire workforce with world-class courses. Enterprise-grade learning at scale.</p>
     
     <div class="metrics">
@@ -552,7 +701,7 @@
           <li>On-premise deployment</li>
           <li>SLA guarantee</li>
         </ul>
-        <a href="#contact" class="btn btn-outline">Contact Sales</a>
+        <button class="btn btn-outline" onclick="handleB2BGetStarted()">Get Started</button>
       </div>
     </div>
   </section>
@@ -581,7 +730,7 @@
 
   <!-- FEATURES GRID -->
   <section class="reveal">
-    <h2 class="section-title">Why Choose NextGen?</h2>
+    <h2 class="section-title">Why Choose LearnAxis?</h2>
     <div class="features-grid">
       <div class="feature-card tilt-card">
         <div class="feature-icon">🛤️</div>
@@ -655,13 +804,14 @@
         <label class="form-label">Message (Optional)</label>
         <textarea class="form-control" placeholder="How can we help your team?"></textarea>
       </div>
+      <button type="button" class="btn-demo-autofill" onclick="demoAutofillBusiness()">⚡ Demo Autofill</button>
       <button type="submit" class="form-submit">Request Demo</button>
     </form>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-brand">NextGen Edu</div>
+    <div class="footer-brand"><img src="logo.png" alt="LearnAxis" class="footer-logo">LearnAxis</div>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="instructor.html">Teach For Us</a>
@@ -670,10 +820,49 @@
       <a href="university.html">University</a>
       <a href="government.html">Public Sector</a>
     </div>
-    <p>© 2026 NextGen Edu. All rights reserved. The future of education, streamed.</p>
+    <p>© 2026 LearnAxis. All rights reserved. The future of education, streamed.</p>
   </footer>
 
   <div id="toast-container"></div>
+
+  <!-- B2B OVERLAY -->
+  <div class="b2b-overlay" id="b2b-overlay">
+    <div class="b2b-panel" id="b2b-panel">
+      <!-- Spinner (shown first) -->
+      <div id="b2b-spinner-state">
+        <div class="b2b-spinner"></div>
+        <div class="b2b-spinner-text">Processing Transaction...</div>
+      </div>
+      <!-- Success (shown after 2s) -->
+      <div id="b2b-success-state" style="display: none;">
+        <div class="b2b-success">
+          <div class="success-icon">✅</div>
+          <h2 style="font-family: 'Space Grotesk', sans-serif; margin-bottom: 8px;">Enterprise Plan Activated!</h2>
+          <p style="color: var(--text-secondary); font-size: 0.92rem;">Your organization's bulk license has been provisioned.</p>
+          <div class="b2b-diagram">
+            <div class="b2b-diagram-inner">
+              <div class="b2b-node biz1">
+                <span class="node-emoji">🏬</span>
+                Client Co.<br>(Business)
+              </div>
+              <div class="b2b-arrow">
+                <span>Bulk License</span>
+                <div class="arrow-line"></div>
+              </div>
+              <div class="b2b-node biz2">
+                <span class="node-emoji">🏢</span>
+                LearnAxis<br>(Business)
+              </div>
+            </div>
+          </div>
+          <div class="b2b-explanation">
+            <strong>B2B Explained:</strong> A separate tech company (business) is paying our platform (business) a bulk fee to train their employees.
+          </div>
+          <button class="b2b-close" onclick="closeB2BOverlay()">Got It</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Navbar Scroll
@@ -728,6 +917,65 @@
       setTimeout(() => { toast.remove(); }, 3000);
       form.reset();
     });
+
+    // B2B Get Started Flow
+    function handleB2BGetStarted() {
+      const overlay = document.getElementById('b2b-overlay');
+      const spinnerState = document.getElementById('b2b-spinner-state');
+      const successState = document.getElementById('b2b-success-state');
+
+      // Reset
+      spinnerState.style.display = 'block';
+      successState.style.display = 'none';
+
+      // Show overlay
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // After 2 seconds, swap spinner for success
+      setTimeout(() => {
+        spinnerState.style.display = 'none';
+        successState.style.display = 'block';
+      }, 2000);
+    }
+
+    function closeB2BOverlay() {
+      document.getElementById('b2b-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('b2b-overlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('b2b-overlay')) closeB2BOverlay();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeB2BOverlay();
+    });
+    // ===== DEMO AUTOFILL =====
+    function demoAutofillBusiness() {
+      const form = document.getElementById('demoForm');
+      const inputs = form.querySelectorAll('.form-control');
+      // Company Name
+      if (inputs[0]) inputs[0].value = 'TechCorp Solutions Pvt. Ltd.';
+      // Work Email
+      if (inputs[1]) inputs[1].value = 'hr@techcorp.io';
+      // Number of Employees (select)
+      if (inputs[2] && inputs[2].tagName === 'SELECT') inputs[2].value = '251-1000';
+      // Message (textarea)
+      if (inputs[3] && inputs[3].tagName === 'TEXTAREA') inputs[3].value = 'We need a custom learning path for our engineering team of 300+ employees covering cloud computing, DevOps, and cybersecurity.';
+
+      // Animate
+      inputs.forEach((input, i) => {
+        setTimeout(() => {
+          input.style.borderColor = 'var(--neon-purple)';
+          input.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.15)';
+          setTimeout(() => {
+            input.style.borderColor = '';
+            input.style.boxShadow = '';
+          }, 800);
+        }, i * 120);
+      });
+    }
   </script>
 </body>
 </html>

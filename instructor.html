@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Become an Instructor — NextGen Edu</title>
+  <title>Become an Instructor — LearnAxis</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -77,14 +77,37 @@
       text-decoration: none;
     }
 
-    .nav-brand .logo-icon {
+    .nav-brand .brand-logo {
       width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
       border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 800;
-      color: var(--bg-primary);
+      object-fit: cover;
       box-shadow: var(--glow-cyan);
+    }
+
+    .footer-logo {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      object-fit: cover;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    .btn-demo-autofill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 8px; color: var(--neon-purple);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: all 0.3s;
+      margin-bottom: 18px;
+    }
+    .btn-demo-autofill:hover {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+      transform: translateY(-1px);
     }
 
     .nav-links {
@@ -397,6 +420,283 @@
       margin-top: 4px;
     }
 
+    /* Video Thumbnail Preview */
+    .video-thumbnail-preview {
+      margin-top: 16px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      animation: fadeInUp 0.5s ease-out;
+      position: relative;
+    }
+
+    .video-thumbnail-preview .thumb-inner {
+      height: 160px;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .video-thumbnail-preview .play-icon {
+      width: 56px;
+      height: 56px;
+      background: rgba(168, 85, 247, 0.3);
+      border: 2px solid var(--neon-purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+      animation: pulse-play 2s infinite;
+    }
+
+    @keyframes pulse-play {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+      50% { transform: scale(1.08); box-shadow: 0 0 40px rgba(168, 85, 247, 0.5); }
+    }
+
+    .video-thumbnail-preview .thumb-info {
+      padding: 12px 16px;
+      background: rgba(14, 14, 26, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .video-thumbnail-preview .thumb-filename {
+      font-size: 0.82rem;
+      color: var(--neon-purple);
+      font-weight: 600;
+    }
+
+    .video-thumbnail-preview .thumb-duration {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(168, 85, 247, 0.1);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
+    /* Upload Progress Bar */
+    .upload-progress-container {
+      margin-top: 16px;
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    .upload-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .upload-progress-label {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .upload-progress-percent {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--neon-purple);
+    }
+
+    .upload-progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(168, 85, 247, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .upload-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    }
+
+    .upload-status-text {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* C2B Modal */
+    .c2b-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(16px);
+      z-index: 5000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .c2b-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .c2b-modal {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 24px;
+      width: 90%;
+      max-width: 560px;
+      padding: 48px 40px;
+      text-align: center;
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s ease;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 80px rgba(168, 85, 247, 0.1);
+    }
+
+    .c2b-modal-overlay.active .c2b-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .c2b-modal .c2b-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(244, 63, 94, 0.2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      animation: successPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+    }
+
+    @keyframes successPop {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .c2b-diagram {
+      margin: 28px auto;
+      perspective: 800px;
+    }
+
+    .c2b-diagram-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      animation: float3d 4s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes float3d {
+      0%, 100% { transform: rotateY(-8deg) rotateX(5deg) translateY(0); }
+      50% { transform: rotateY(8deg) rotateX(-5deg) translateY(-10px); }
+    }
+
+    .c2b-node {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+
+    .c2b-node:hover { transform: scale(1.1) translateZ(20px); }
+
+    .c2b-node .node-emoji { font-size: 1.8rem; margin-bottom: 6px; }
+
+    .c2b-node.consumer {
+      background: rgba(244, 63, 94, 0.12);
+      border-color: rgba(244, 63, 94, 0.4);
+      color: var(--neon-pink);
+    }
+
+    .c2b-node.business {
+      background: rgba(168, 85, 247, 0.12);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: var(--neon-purple);
+    }
+
+    .c2b-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .c2b-arrow .arrow-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+      position: relative;
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    }
+
+    .c2b-arrow .arrow-line::after {
+      content: '→';
+      position: absolute;
+      right: -8px;
+      top: -10px;
+      font-size: 1.2rem;
+      color: var(--neon-purple);
+    }
+
+    .c2b-explanation {
+      margin-top: 24px;
+      padding: 20px;
+      background: rgba(168, 85, 247, 0.04);
+      border: 1px solid rgba(168, 85, 247, 0.12);
+      border-radius: 14px;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .c2b-explanation strong { color: var(--neon-purple); }
+
+    .c2b-close {
+      margin-top: 24px;
+      padding: 12px 36px;
+      background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .c2b-close:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.4);
+    }
+
     .btn-submit-pitch {
       width: 100%;
       padding: 16px;
@@ -413,6 +713,12 @@
     .btn-submit-pitch:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 40px rgba(168, 85, 247, 0.35);
+    }
+
+    .btn-submit-pitch:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     /* ===== TESTIMONIAL ===== */
@@ -569,8 +875,8 @@
   <!-- ===== NAVIGATION ===== -->
   <nav class="navbar" id="navbar">
     <a href="index.html" class="nav-brand">
-      <span class="logo-icon">N</span>
-      NextGen Edu
+      <img src="logo.png" alt="LearnAxis" class="brand-logo">
+      LearnAxis
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -657,7 +963,7 @@
 
       <div class="teach-form-card reveal reveal-delay-2">
         <h4>📤 Submit Your Course Pitch</h4>
-        <form class="teach-form" onsubmit="handlePitch(event)">
+        <form class="teach-form" id="pitch-form" onsubmit="handlePitch(event)">
           <div class="form-group">
             <label>Your Name</label>
             <input type="text" class="form-input" placeholder="Jane Smith" required />
@@ -668,14 +974,19 @@
           </div>
           <div class="form-group">
             <label>Upload Sample Video</label>
-            <div class="file-upload-area" onclick="document.getElementById('file-input').click()">
+            <div class="file-upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
               <div class="upload-icon">📁</div>
               <p id="file-label">Drag & drop or click to upload</p>
               <span class="file-types">MP4, MOV, or WEBM • Max 500MB</span>
               <input type="file" id="file-input" accept="video/*" hidden onchange="handleFileSelect(this)" />
             </div>
+            <!-- Video thumbnail preview container -->
+            <div id="video-preview-container"></div>
           </div>
-          <button type="submit" class="btn-submit-pitch">Submit Pitch →</button>
+          <!-- Upload progress container -->
+          <div id="upload-progress-container"></div>
+          <button type="button" class="btn-demo-autofill" onclick="demoAutofillInstructor()">⚡ Demo Autofill</button>
+          <button type="submit" class="btn-submit-pitch" id="submit-btn">Upload & Submit Pitch →</button>
         </form>
       </div>
     </div>
@@ -727,7 +1038,7 @@
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <div class="footer-brand">NextGen Edu</div>
+    <div class="footer-brand"><img src="logo.png" alt="LearnAxis" class="footer-logo">LearnAxis</div>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="#">About</a>
@@ -735,7 +1046,7 @@
       <a href="#">Terms</a>
       <a href="#">Support</a>
     </div>
-    <p>© 2026 NextGen Edu. All rights reserved. The future of education, streamed.</p>
+    <p>© 2026 LearnAxis. All rights reserved. The future of education, streamed.</p>
   </footer>
 
   <!-- ===== TOAST ===== -->
@@ -744,6 +1055,38 @@
     <div class="toast-text">
       <span id="toast-message">Success!</span>
       <small id="toast-sub">Your action was completed.</small>
+    </div>
+  </div>
+
+  <!-- ===== C2B MODAL ===== -->
+  <div class="c2b-modal-overlay" id="c2b-modal">
+    <div class="c2b-modal">
+      <div class="c2b-icon">🎉</div>
+      <h2 style="font-family: 'Space Grotesk', sans-serif; margin-bottom: 8px;">Course Accepted!</h2>
+      <p style="color: var(--text-secondary); font-size: 0.92rem;">Your pitch has been reviewed and approved. RS 42,000 has been credited to your account.</p>
+
+      <div class="c2b-diagram">
+        <div class="c2b-diagram-inner">
+          <div class="c2b-node consumer">
+            <span class="node-emoji">🧑‍🏫</span>
+            You<br>(Creator)
+          </div>
+          <div class="c2b-arrow">
+            <span>Course Content</span>
+            <div class="arrow-line"></div>
+          </div>
+          <div class="c2b-node business">
+            <span class="node-emoji">🏢</span>
+            LearnAxis<br>(Business)
+          </div>
+        </div>
+      </div>
+
+      <div class="c2b-explanation">
+        <strong>C2B Explained:</strong> The independent creator (consumer) provides value, and our platform (business) pays them for their service.
+      </div>
+
+      <button class="c2b-close" onclick="closeC2BModal()">Got It</button>
     </div>
   </div>
 
@@ -763,23 +1106,136 @@
     }, { threshold: 0.15 });
     reveals.forEach(el => revealObserver.observe(el));
 
-    // ===== FILE UPLOAD =====
+    // ===== FILE UPLOAD — Show Video Thumbnail =====
+    let fileSelected = false;
+
     function handleFileSelect(input) {
       const label = document.getElementById('file-label');
+      const previewContainer = document.getElementById('video-preview-container');
+
       if (input.files && input.files[0]) {
-        label.textContent = '📎 ' + input.files[0].name;
+        const file = input.files[0];
+        fileSelected = true;
+
+        // Update upload area text
+        label.textContent = '📎 ' + file.name;
         label.style.color = 'var(--neon-purple)';
+
+        // Generate fake video thumbnail
+        const fakeDuration = Math.floor(Math.random() * 15) + 3;
+        const mins = Math.floor(fakeDuration);
+        const secs = Math.floor(Math.random() * 60).toString().padStart(2, '0');
+
+        previewContainer.innerHTML = `
+          <div class="video-thumbnail-preview">
+            <div class="thumb-inner">
+              <div class="play-icon">▶</div>
+            </div>
+            <div class="thumb-info">
+              <span class="thumb-filename">📹 ${file.name}</span>
+              <span class="thumb-duration">${mins}:${secs}</span>
+            </div>
+          </div>
+        `;
+
+        showToast('Video Selected', 'Preview generated — ready to upload ✅');
       }
     }
 
-    // ===== HANDLE PITCH =====
+    // ===== HANDLE PITCH — Animated Progress Bar =====
     function handlePitch(e) {
       e.preventDefault();
-      showToast('Pitch Submitted! 🎉', 'Our team will review your submission within 48 hours.');
-      e.target.reset();
+
+      const submitBtn = document.getElementById('submit-btn');
+      const progressContainer = document.getElementById('upload-progress-container');
+
+      // Disable button
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Uploading...';
+
+      // Show progress bar
+      progressContainer.innerHTML = `
+        <div class="upload-progress-container">
+          <div class="upload-progress-header">
+            <span class="upload-progress-label">Uploading course content...</span>
+            <span class="upload-progress-percent" id="progress-percent">0%</span>
+          </div>
+          <div class="upload-progress-track">
+            <div class="upload-progress-bar" id="progress-bar"></div>
+          </div>
+          <div class="upload-status-text" id="upload-status">Initializing upload...</div>
+        </div>
+      `;
+
+      // Animate the progress bar
+      let progress = 0;
+      const bar = document.getElementById('progress-bar');
+      const percentText = document.getElementById('progress-percent');
+      const statusText = document.getElementById('upload-status');
+
+      const statuses = [
+        { at: 10, text: 'Compressing video data...' },
+        { at: 25, text: 'Uploading to LearnAxis servers...' },
+        { at: 45, text: 'Processing video metadata...' },
+        { at: 65, text: 'Running quality analysis...' },
+        { at: 80, text: 'Finalizing submission...' },
+        { at: 95, text: 'Almost done...' },
+      ];
+
+      const interval = setInterval(() => {
+        progress += Math.random() * 4 + 1;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+
+          bar.style.width = '100%';
+          percentText.textContent = '100%';
+          statusText.textContent = '✅ Upload complete!';
+          submitBtn.textContent = '✓ Submitted';
+
+          // Show C2B modal after short delay
+          setTimeout(() => {
+            document.getElementById('c2b-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }, 800);
+        } else {
+          bar.style.width = progress + '%';
+          percentText.textContent = Math.floor(progress) + '%';
+
+          // Update status text
+          for (let i = statuses.length - 1; i >= 0; i--) {
+            if (progress >= statuses[i].at) {
+              statusText.textContent = statuses[i].text;
+              break;
+            }
+          }
+        }
+      }, 80);
+    }
+
+    // ===== CLOSE C2B MODAL =====
+    function closeC2BModal() {
+      document.getElementById('c2b-modal').classList.remove('active');
+      document.body.style.overflow = '';
+
+      // Reset form
+      document.getElementById('pitch-form').reset();
       document.getElementById('file-label').textContent = 'Drag & drop or click to upload';
       document.getElementById('file-label').style.color = '';
+      document.getElementById('video-preview-container').innerHTML = '';
+      document.getElementById('upload-progress-container').innerHTML = '';
+      document.getElementById('submit-btn').disabled = false;
+      document.getElementById('submit-btn').textContent = 'Upload & Submit Pitch →';
+      fileSelected = false;
     }
+
+    document.getElementById('c2b-modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('c2b-modal')) closeC2BModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeC2BModal();
+    });
 
     // ===== TOAST =====
     function showToast(message, sub) {
@@ -788,6 +1244,27 @@
       document.getElementById('toast-sub').textContent = sub;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+    // ===== DEMO AUTOFILL =====
+    function demoAutofillInstructor() {
+      const form = document.getElementById('pitch-form');
+      const inputs = form.querySelectorAll('.form-input');
+      if (inputs[0]) inputs[0].value = 'Dr. Priya Sharma';
+      if (inputs[1]) inputs[1].value = 'Advanced Machine Learning with Python';
+
+      // Animate inputs
+      inputs.forEach((input, i) => {
+        setTimeout(() => {
+          input.style.borderColor = 'var(--neon-purple)';
+          input.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.15)';
+          setTimeout(() => {
+            input.style.borderColor = '';
+            input.style.boxShadow = '';
+          }, 800);
+        }, i * 120);
+      });
+
+      showToast('Demo Mode', 'Instructor form auto-filled with test data \u26a1');
     }
   </script>
 </body>

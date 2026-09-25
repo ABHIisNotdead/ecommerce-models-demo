@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NextGen Edu — Master the Future</title>
+  <title>LearnAxis — Master the Future</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -86,18 +86,21 @@
       text-decoration: none;
     }
 
-    .nav-brand .logo-icon {
+    .nav-brand .brand-logo {
       width: 36px;
       height: 36px;
-      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
       border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--bg-primary);
+      object-fit: cover;
       box-shadow: var(--glow-cyan);
+    }
+
+    .footer-logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      object-fit: cover;
+      vertical-align: middle;
+      margin-right: 8px;
     }
 
     .nav-links {
@@ -802,6 +805,132 @@
 
     .modal-feature svg { color: var(--neon-cyan); flex-shrink: 0; }
 
+    /* ===== B2C SUCCESS STATE ===== */
+    .b2c-success {
+      text-align: center;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .b2c-success .success-checkmark {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(168, 85, 247, 0.2));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      animation: successPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
+    }
+
+    @keyframes successPop {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .b2c-diagram {
+      margin: 28px auto;
+      perspective: 800px;
+    }
+
+    .b2c-diagram-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      animation: float3d 4s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes float3d {
+      0%, 100% { transform: rotateY(-8deg) rotateX(5deg) translateY(0); }
+      50% { transform: rotateY(8deg) rotateX(-5deg) translateY(-10px); }
+    }
+
+    .b2c-node {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+
+    .b2c-node:hover {
+      transform: scale(1.1) translateZ(20px);
+    }
+
+    .b2c-node .node-emoji {
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+
+    .b2c-node.consumer {
+      background: rgba(0, 229, 255, 0.12);
+      border-color: rgba(0, 229, 255, 0.4);
+      color: var(--neon-cyan);
+    }
+
+    .b2c-node.business {
+      background: rgba(168, 85, 247, 0.12);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: var(--neon-purple);
+    }
+
+    .b2c-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .b2c-arrow .arrow-line {
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+      position: relative;
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    }
+
+    .b2c-arrow .arrow-line::after {
+      content: '→';
+      position: absolute;
+      right: -8px;
+      top: -10px;
+      font-size: 1.2rem;
+      color: var(--neon-purple);
+    }
+
+    .b2c-explanation {
+      margin-top: 24px;
+      padding: 20px;
+      background: rgba(0, 229, 255, 0.04);
+      border: 1px solid rgba(0, 229, 255, 0.12);
+      border-radius: 14px;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .b2c-explanation strong {
+      color: var(--neon-cyan);
+    }
+
     /* ===== TEACH FOR US ===== */
     .teach-section {
       background: var(--bg-secondary);
@@ -1057,8 +1186,8 @@
   <!-- ===== NAVIGATION ===== -->
   <nav class="navbar" id="navbar">
     <a href="#" class="nav-brand">
-      <span class="logo-icon">N</span>
-      NextGen Edu
+      <img src="logo.png" alt="LearnAxis" class="brand-logo">
+      LearnAxis
     </a>
     <ul class="nav-links">
       <li><a href="index.html" class="active-link">Home</a></li>
@@ -1313,52 +1442,56 @@
 
   <!-- ===== PAYWALL MODAL ===== -->
   <div class="modal-overlay" id="paywall-modal">
-    <div class="modal">
+    <div class="modal" id="modal-content">
       <button class="modal-close" onclick="closeModal()">✕</button>
-      <div class="modal-icon">🔐</div>
-      <h2>Premium Content</h2>
-      <p class="modal-subtitle">Subscribe to unlock <strong id="modal-course-name">this lecture</strong> and all 1,200+ premium courses.</p>
-      <div class="price-tag">
-        <span class="currency">RS</span>
-        <span class="amount">999</span>
-        <span class="period">/month</span>
-      </div>
-      <button type="button" class="btn-quickfill" onclick="quickFillDemo()">⚡ Quick Fill Demo</button>
-      <form class="modal-form" id="subscribe-form" onsubmit="handleSubscribe(event)">
-        <div class="form-group">
-          <label>Card Number</label>
-          <input type="text" class="form-input" id="pay-card" placeholder="4242 4242 4242 4242" maxlength="19" />
+      <div id="modal-body-default">
+        <div class="modal-icon">🔐</div>
+        <h2>Premium Content</h2>
+        <p class="modal-subtitle">Subscribe to unlock <strong id="modal-course-name">this lecture</strong> and all 1,200+ premium courses.</p>
+        <div class="price-tag">
+          <span class="currency">RS</span>
+          <span class="amount">999</span>
+          <span class="period">/month</span>
         </div>
-        <div class="form-row">
+        <button type="button" class="btn-quickfill" onclick="quickFillDemo()">⚡ Quick Fill Demo</button>
+        <form class="modal-form" id="subscribe-form" onsubmit="handleSubscribe(event)">
           <div class="form-group">
-            <label>Expiry Date</label>
-            <input type="text" class="form-input" id="pay-expiry" placeholder="MM / YY" maxlength="7" />
+            <label>Card Number</label>
+            <input type="text" class="form-input" id="pay-card" placeholder="4242 4242 4242 4242" maxlength="19" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Expiry Date</label>
+              <input type="text" class="form-input" id="pay-expiry" placeholder="MM / YY" maxlength="7" />
+            </div>
+            <div class="form-group">
+              <label>CVC</label>
+              <input type="text" class="form-input" id="pay-cvc" placeholder="123" maxlength="4" />
+            </div>
           </div>
           <div class="form-group">
-            <label>CVC</label>
-            <input type="text" class="form-input" id="pay-cvc" placeholder="123" maxlength="4" />
+            <label>Name on Card</label>
+            <input type="text" class="form-input" id="pay-name" placeholder="John Doe" />
+          </div>
+          <button type="submit" class="btn-subscribe">Subscribe Now — RS 999/mo</button>
+        </form>
+        <div class="modal-features">
+          <div class="modal-feature">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Cancel anytime
+          </div>
+          <div class="modal-feature">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            HD streaming
+          </div>
+          <div class="modal-feature">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Certificates
           </div>
         </div>
-        <div class="form-group">
-          <label>Name on Card</label>
-          <input type="text" class="form-input" id="pay-name" placeholder="John Doe" />
-        </div>
-        <button type="submit" class="btn-subscribe">Subscribe Now — RS 999/mo</button>
-      </form>
-      <div class="modal-features">
-        <div class="modal-feature">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Cancel anytime
-        </div>
-        <div class="modal-feature">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          HD streaming
-        </div>
-        <div class="modal-feature">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Certificates
-        </div>
       </div>
+      <!-- B2C Success State (hidden initially) -->
+      <div id="modal-body-success" style="display: none;"></div>
     </div>
   </div>
 
@@ -1366,14 +1499,14 @@
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <div class="footer-brand">NextGen Edu</div>
+    <div class="footer-brand"><img src="logo.png" alt="LearnAxis" class="footer-logo">LearnAxis</div>
     <div class="footer-links">
       <a href="#">About</a>
       <a href="#">Privacy</a>
       <a href="#">Terms</a>
       <a href="#">Support</a>
     </div>
-    <p>© 2026 NextGen Edu. All rights reserved. The future of education, streamed.</p>
+    <p>© 2026 LearnAxis. All rights reserved. The future of education, streamed.</p>
   </footer>
 
   <!-- ===== TOAST ===== -->
@@ -1581,6 +1714,10 @@
     const modalCourseName = document.getElementById('modal-course-name');
 
     function openModal(courseName) {
+      // Reset modal to default state
+      document.getElementById('modal-body-default').style.display = 'block';
+      document.getElementById('modal-body-success').style.display = 'none';
+      document.getElementById('modal-body-success').innerHTML = '';
       modalCourseName.textContent = courseName;
       modalOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -1599,11 +1736,44 @@
       if (e.key === 'Escape') closeModal();
     });
 
-    // ===== HANDLE SUBSCRIBE =====
+    // ===== HANDLE SUBSCRIBE — B2C SUCCESS STATE =====
     function handleSubscribe(e) {
       e.preventDefault();
-      closeModal();
-      showToast('Subscription Activated!', 'Welcome to NextGen Edu Premium 🎉');
+
+      // Hide the form, show the B2C success state
+      document.getElementById('modal-body-default').style.display = 'none';
+      const successEl = document.getElementById('modal-body-success');
+      successEl.style.display = 'block';
+      successEl.innerHTML = `
+        <div class="b2c-success">
+          <div class="success-checkmark">✅</div>
+          <h2 style="font-family: 'Space Grotesk', sans-serif; margin-bottom: 8px;">Payment Successful!</h2>
+          <p style="color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 8px;">
+            Welcome to LearnAxis Premium 🎉
+          </p>
+
+          <div class="b2c-diagram">
+            <div class="b2c-diagram-inner">
+              <div class="b2c-node consumer">
+                <span class="node-emoji">🧑‍🎓</span>
+                You<br>(Consumer)
+              </div>
+              <div class="b2c-arrow">
+                <span>RS 999/mo</span>
+                <div class="arrow-line"></div>
+              </div>
+              <div class="b2c-node business">
+                <span class="node-emoji">🏢</span>
+                LearnAxis<br>(Business)
+              </div>
+            </div>
+          </div>
+
+          <div class="b2c-explanation">
+            <strong>B2C Explained:</strong> You (the student/consumer) just paid us (the platform/business) directly for a digital service.
+          </div>
+        </div>
+      `;
     }
 
     // ===== QUICK FILL DEMO =====

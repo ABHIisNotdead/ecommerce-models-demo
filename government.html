@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Public Sector Education | NextGen Edu</title>
+  <title>Public Sector Education | LearnAxis</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* DESIGN SYSTEM */
@@ -70,13 +70,31 @@
       font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.35rem;
       color: var(--text-primary); text-decoration: none;
     }
-    .nav-brand .logo-icon {
+    .nav-brand .brand-logo {
       width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 800; color: var(--bg-primary);
+      border-radius: 10px; object-fit: cover;
       box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+    }
+    .footer-logo {
+      width: 28px; height: 28px; border-radius: 6px;
+      object-fit: cover; vertical-align: middle; margin-right: 8px;
+    }
+    .btn-demo-autofill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 8px; color: var(--neon-purple);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: all 0.3s;
+      margin-bottom: 12px;
+    }
+    .btn-demo-autofill:hover {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+      transform: translateY(-1px);
     }
     .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
     .nav-links a {
@@ -482,6 +500,66 @@
     }
     .toast.show { transform: translateX(0); }
 
+    /* B2G MODAL */
+    .b2g-modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      z-index: 5000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .b2g-modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .b2g-modal {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      border-radius: 24px;
+      width: 90%; max-width: 560px;
+      padding: 48px 40px;
+      text-align: center;
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s ease;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), 0 0 80px rgba(0, 229, 255, 0.1);
+    }
+    .b2g-modal-overlay.active .b2g-modal {
+      transform: translateY(0) scale(1);
+    }
+    .b2g-icon {
+      width: 80px; height: 80px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(59, 130, 246, 0.2));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      box-shadow: 0 0 40px rgba(0, 229, 255, 0.3);
+    }
+    .b2g-text {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .b2g-text strong {
+      color: var(--neon-cyan);
+    }
+    .b2g-close {
+      padding: 12px 36px;
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+      color: var(--bg-primary);
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .b2g-close:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 229, 255, 0.4);
+    }
+
     /* Animations */
     .reveal {
       opacity: 0;
@@ -512,8 +590,8 @@
   <!-- EXACT NAVIGATION BAR HTML -->
   <nav class="navbar" id="navbar">
     <a href="index.html" class="nav-brand">
-      <span class="logo-icon">N</span>
-      NextGen Edu
+      <img src="logo.png" alt="LearnAxis" class="brand-logo">
+      LearnAxis
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -568,7 +646,7 @@
           <span class="card-metric">500+ Districts</span>
           <h3 class="card-title">National Digital Literacy Mission</h3>
           <p class="card-desc">Partnering with the Ministry of Education to deliver digital skills training across 500+ rural districts. Covering basic computing, internet safety, and digital payments.</p>
-          <a href="#" class="btn-outline">Learn More</a>
+          <a href="#" class="btn-outline" onclick="event.preventDefault(); openB2GModal();">Learn More</a>
         </div>
       </div>
 
@@ -582,7 +660,7 @@
           <span class="card-metric">12 States</span>
           <h3 class="card-title">State Skill Development Program</h3>
           <p class="card-desc">Deployed in 12 states to upskill youth in emerging technologies. Tracks include AI, Web Development, Cloud Computing, and Data Science.</p>
-          <a href="#" class="btn-outline">Learn More</a>
+          <a href="#" class="btn-outline" onclick="event.preventDefault(); openB2GModal();">Learn More</a>
         </div>
       </div>
 
@@ -596,7 +674,7 @@
           <span class="card-metric">Classes 8-12</span>
           <h3 class="card-title">Public School STEM Enhancement</h3>
           <p class="card-desc">Supplementary STEM curriculum for classes 8-12 across government schools. Interactive labs, coding exercises, and teacher training modules.</p>
-          <a href="#" class="btn-outline">Learn More</a>
+          <a href="#" class="btn-outline" onclick="event.preventDefault(); openB2GModal();">Learn More</a>
         </div>
       </div>
 
@@ -697,6 +775,7 @@
           <textarea id="reqs" class="form-control" placeholder="Briefly describe your objectives..."></textarea>
         </div>
 
+        <button type="button" class="btn-demo-autofill" onclick="demoAutofillGov()">⚡ Demo Autofill</button>
         <button type="submit" class="btn-submit">Submit Proposal Request</button>
       </form>
     </div>
@@ -717,7 +796,7 @@
 
   <!-- EXACT FOOTER HTML -->
   <footer class="footer">
-    <div class="footer-brand">NextGen Edu</div>
+    <div class="footer-brand"><img src="logo.png" alt="LearnAxis" class="footer-logo">LearnAxis</div>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="instructor.html">Teach For Us</a>
@@ -726,10 +805,22 @@
       <a href="university.html">University</a>
       <a href="government.html">Public Sector</a>
     </div>
-    <p>© 2026 NextGen Edu. All rights reserved. The future of education, streamed.</p>
+    <p>© 2026 LearnAxis. All rights reserved. The future of education, streamed.</p>
   </footer>
 
   <div class="toast-container" id="toastContainer"></div>
+
+  <!-- B2G Modal -->
+  <div class="b2g-modal-overlay" id="b2g-overlay">
+    <div class="b2g-modal">
+      <div class="b2g-icon">🏛️</div>
+      <h2 style="font-family: 'Space Grotesk', sans-serif; margin-bottom: 16px;">Government Partnership</h2>
+      <div class="b2g-text">
+        <strong>B2G Explained:</strong> Our private tech company is providing infrastructure and an educational library to a government agency for state-run public schools.
+      </div>
+      <button class="b2g-close" onclick="closeB2GModal()">Close</button>
+    </div>
+  </div>
 
   <script>
     // Navbar Scroll Effect
@@ -792,6 +883,47 @@
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
       }, 4000);
+    }
+
+    // B2G Modal Functions
+    function openB2GModal() {
+      document.getElementById('b2g-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeB2GModal() {
+      document.getElementById('b2g-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('b2g-overlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('b2g-overlay')) closeB2GModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeB2GModal();
+    });
+    // ===== DEMO AUTOFILL =====
+    function demoAutofillGov() {
+      document.getElementById('deptName').value = 'Dept. of Technical Education, Maharashtra';
+      document.getElementById('contactName').value = 'Shri Rajesh Patil (IAS)';
+      document.getElementById('email').value = 'rajesh.patil@dte.maharashtra.gov.in';
+      document.getElementById('phone').value = '+91 22 2652 0000';
+      document.getElementById('state').value = 'MH';
+      document.getElementById('programType').value = 'sd';
+      document.getElementById('beneficiaries').value = '10k-100k';
+      document.getElementById('reqs').value = 'Upskilling 50,000 ITI students across Maharashtra in Industry 4.0 technologies including IoT, robotics, and advanced manufacturing.';
+
+      const allFields = document.querySelectorAll('#govForm .form-control');
+      allFields.forEach((input, i) => {
+        setTimeout(() => {
+          input.style.borderColor = 'var(--neon-purple)';
+          input.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.15)';
+          setTimeout(() => {
+            input.style.borderColor = '';
+            input.style.boxShadow = '';
+          }, 800);
+        }, i * 100);
+      });
+
+      showToast('Government form auto-filled with demo data ⚡');
     }
   </script>
 </body>

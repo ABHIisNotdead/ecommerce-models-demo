@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Community Marketplace - NextGen Edu</title>
+  <title>Community Marketplace - LearnAxis</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -59,13 +59,14 @@
       font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.35rem;
       color: var(--text-primary); text-decoration: none;
     }
-    .nav-brand .logo-icon {
+    .nav-brand .brand-logo {
       width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 800; color: var(--bg-primary);
+      border-radius: 10px; object-fit: cover;
       box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+    }
+    .footer-logo {
+      width: 28px; height: 28px; border-radius: 6px;
+      object-fit: cover; vertical-align: middle; margin-right: 8px;
     }
     .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
     .nav-links a {
@@ -350,6 +351,164 @@
       .cta-section { flex-direction: column; text-align: center; padding: 40px 24px; }
       .stats-bar { flex-direction: column; gap: 20px; }
     }
+
+    /* C2C PURCHASE OVERLAY */
+    .c2c-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 5000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .c2c-overlay.active { opacity: 1; pointer-events: auto; }
+
+    /* Purchase Loading Screen */
+    .c2c-loading {
+      text-align: center;
+      animation: fadeInUp 0.4s ease-out;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .c2c-loading .purchase-spinner {
+      width: 56px; height: 56px;
+      border: 3px solid rgba(244, 63, 94, 0.15);
+      border-top-color: var(--neon-pink);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .c2c-loading .purchase-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--neon-pink);
+      animation: pulseFade 1.5s ease-in-out infinite;
+    }
+    @keyframes pulseFade {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    /* Cinematic Video Player UI */
+    .c2c-player {
+      width: 90%; max-width: 800px;
+      animation: fadeInUp 0.6s ease-out;
+    }
+    .player-frame {
+      background: #0a0a14;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 60px rgba(244, 63, 94, 0.1);
+    }
+    .player-viewport {
+      height: 360px;
+      background: linear-gradient(135deg, #0a0a14, #1a0a1e, #0a0a14);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .player-viewport .player-content {
+      text-align: center;
+      padding: 40px;
+      z-index: 2;
+    }
+    .player-viewport .player-content h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .player-viewport .player-content .c2c-text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .player-viewport .player-content .c2c-text strong {
+      color: var(--neon-pink);
+    }
+    .player-viewport .cinematic-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(244, 63, 94, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+    .player-viewport .scanlines {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.01) 2px,
+        rgba(255, 255, 255, 0.01) 4px
+      );
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .player-controls {
+      padding: 16px 24px;
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(10, 10, 20, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .player-controls .play-btn {
+      width: 36px; height: 36px;
+      background: var(--neon-pink);
+      border: none; border-radius: 50%;
+      color: white; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+    }
+    .player-controls .progress-track {
+      flex: 1; height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .player-controls .progress-fill {
+      height: 100%; width: 0%;
+      background: var(--neon-pink);
+      border-radius: 2px;
+      animation: playerProgress 8s linear infinite;
+    }
+    @keyframes playerProgress {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    .player-controls .time-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+    }
+    .player-controls .fullscreen-btn {
+      background: none; border: none;
+      color: var(--text-muted);
+      font-size: 1rem; cursor: pointer;
+      transition: color 0.2s;
+    }
+    .player-controls .fullscreen-btn:hover { color: var(--text-primary); }
+    .player-close {
+      display: block;
+      margin: 16px auto 0;
+      padding: 10px 28px;
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: var(--neon-pink);
+      border-radius: 10px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .player-close:hover {
+      background: var(--neon-pink); color: white;
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -357,8 +516,8 @@
   <!-- EXACT NAVIGATION BAR -->
   <nav class="navbar" id="navbar">
     <a href="index.html" class="nav-brand">
-      <span class="logo-icon">N</span>
-      NextGen Edu
+      <img src="logo.png" alt="LearnAxis" class="brand-logo">
+      LearnAxis
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -424,7 +583,7 @@
       <div class="course-card tilt-card c-cyan reveal">
         <div class="card-thumbnail">
           <div class="card-thumbnail-bg" style="background: linear-gradient(135deg, #0f172a, #082f49);">
-            <img src="https://media.giphy.com/media/L1R1tvI9svkIWwpVYr/giphy.gif" alt="Coding" class="card-gif" />
+            <img src="https://media.giphy.com/media/L1R1tvI9svkIWwpVYr/giphy.gif" alt="E-Commerce" class="card-gif" />
           </div>
           <div class="card-badge">Community Seller</div>
           <div class="avatar">JD</div>
@@ -434,11 +593,11 @@
             <span class="seller-name">John Doe</span>
             <span class="stars">★★★★☆</span>
           </div>
-          <h3 class="course-title">Fullstack Python Bootcamp</h3>
-          <p class="course-desc">Master Python from scratch. Build web apps and scripts. Fast-paced and project-based.</p>
+          <h3 class="course-title">C2C E-Commerce Course</h3>
+          <p class="course-desc">Learn how to build and scale C2C marketplace platforms from the ground up.</p>
           <div class="card-footer">
             <div class="price">RS 499</div>
-            <button class="btn-buy" onclick="showToast('Added to cart!')">Buy Now</button>
+            <button class="btn-buy" onclick="handleC2CBuy('C2C E-Commerce Course', 'John Doe', 'RS 499')">Buy Now</button>
           </div>
         </div>
       </div>
@@ -461,7 +620,7 @@
           <p class="course-desc">Simplify complex calculus concepts. Perfect for university students and engineers.</p>
           <div class="card-footer">
             <div class="price">RS 299</div>
-            <button class="btn-buy" onclick="showToast('Added to cart!')">Buy Now</button>
+            <button class="btn-buy" onclick="handleC2CBuy('Advanced Calculus Decoded', 'Alice Smith', 'RS 299')">Buy Now</button>
           </div>
         </div>
       </div>
@@ -484,7 +643,7 @@
           <p class="course-desc">Learn Figma, prototyping, and user psychology to design stunning interfaces.</p>
           <div class="card-footer">
             <div class="price">RS 799</div>
-            <button class="btn-buy" onclick="showToast('Added to cart!')">Buy Now</button>
+            <button class="btn-buy" onclick="handleC2CBuy('UI/UX Design Masterclass', 'Mark Riley', 'RS 799')">Buy Now</button>
           </div>
         </div>
       </div>
@@ -507,7 +666,7 @@
           <p class="course-desc">Discover the secrets of plant-based cooking. 50+ recipes and techniques.</p>
           <div class="card-footer">
             <div class="price">RS 149</div>
-            <button class="btn-buy" onclick="showToast('Added to cart!')">Buy Now</button>
+            <button class="btn-buy" onclick="handleC2CBuy('Vegan Culinary Arts', 'Sarah Jones', 'RS 149')">Buy Now</button>
           </div>
         </div>
       </div>
@@ -530,7 +689,7 @@
           <p class="course-desc">Produce your first track in Ableton Live. From arrangement to mixing and mastering.</p>
           <div class="card-footer">
             <div class="price">RS 999</div>
-            <button class="btn-buy" onclick="showToast('Added to cart!')">Buy Now</button>
+            <button class="btn-buy" onclick="handleC2CBuy('Music Production 101', 'Ben Kingsley', 'RS 999')">Buy Now</button>
           </div>
         </div>
       </div>
@@ -553,7 +712,7 @@
           <p class="course-desc">Build strength and mobility without a gym. Progressive routines for all levels.</p>
           <div class="card-footer">
             <div class="price">RS 199</div>
-            <button class="btn-buy" onclick="showToast('Added to cart!')">Buy Now</button>
+            <button class="btn-buy" onclick="handleC2CBuy('At-Home Calisthenics', 'Tom Cruise', 'RS 199')">Buy Now</button>
           </div>
         </div>
       </div>
@@ -570,9 +729,20 @@
 
   <div class="toast-container" id="toastContainer"></div>
 
+  <!-- C2C OVERLAY -->
+  <div class="c2c-overlay" id="c2c-overlay">
+    <!-- Loading state -->
+    <div id="c2c-loading-state" class="c2c-loading">
+      <div class="purchase-spinner"></div>
+      <div class="purchase-text">Processing Purchase...</div>
+    </div>
+    <!-- Player state -->
+    <div id="c2c-player-state" class="c2c-player" style="display: none;"></div>
+  </div>
+
   <!-- EXACT FOOTER -->
   <footer class="footer">
-    <div class="footer-brand">NextGen Edu</div>
+    <div class="footer-brand"><img src="logo.png" alt="LearnAxis" class="footer-logo">LearnAxis</div>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="instructor.html">Teach For Us</a>
@@ -581,7 +751,7 @@
       <a href="university.html">University</a>
       <a href="government.html">Public Sector</a>
     </div>
-    <p>© 2026 NextGen Edu. All rights reserved. The future of education, streamed.</p>
+    <p>© 2026 LearnAxis. All rights reserved. The future of education, streamed.</p>
   </footer>
 
   <script>
@@ -638,6 +808,63 @@
         }
       }, 3000);
     }
+
+    // C2C Buy Flow
+    function handleC2CBuy(courseTitle, sellerName, price) {
+      const overlay = document.getElementById('c2c-overlay');
+      const loadingState = document.getElementById('c2c-loading-state');
+      const playerState = document.getElementById('c2c-player-state');
+
+      // Reset states
+      loadingState.style.display = 'block';
+      playerState.style.display = 'none';
+
+      // Show overlay
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // After 1.5 seconds, transition to cinematic player
+      setTimeout(() => {
+        loadingState.style.display = 'none';
+        playerState.style.display = 'block';
+        playerState.innerHTML = `
+          <div class="player-frame">
+            <div class="player-viewport">
+              <div class="cinematic-bg"></div>
+              <div class="scanlines"></div>
+              <div class="player-content">
+                <h3>Now Playing: ${courseTitle}</h3>
+                <p class="c2c-text">
+                  <strong>C2C Explained:</strong> A consumer is buying a course directly from another consumer. Our platform merely acts as the marketplace facilitating the trade.
+                </p>
+              </div>
+            </div>
+            <div class="player-controls">
+              <button class="play-btn">▶</button>
+              <div class="progress-track">
+                <div class="progress-fill"></div>
+              </div>
+              <span class="time-label">0:00 / 12:34</span>
+              <button class="fullscreen-btn">⛶</button>
+            </div>
+          </div>
+          <button class="player-close" onclick="closeC2COverlay()">Close Player</button>
+        `;
+      }, 1500);
+    }
+
+    function closeC2COverlay() {
+      document.getElementById('c2c-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('c2c-overlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('c2c-overlay')) closeC2COverlay();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeC2COverlay();
+    });
   </script>
 </body>
 </html>

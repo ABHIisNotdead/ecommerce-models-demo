@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>University Degrees - NextGen Edu</title>
+  <title>University Degrees - LearnAxis</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -71,13 +71,31 @@
       font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.35rem;
       color: var(--text-primary); text-decoration: none;
     }
-    .nav-brand .logo-icon {
+    .nav-brand .brand-logo {
       width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 800; color: var(--bg-primary);
+      border-radius: 10px; object-fit: cover;
       box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+    }
+    .footer-logo {
+      width: 28px; height: 28px; border-radius: 6px;
+      object-fit: cover; vertical-align: middle; margin-right: 8px;
+    }
+    .btn-demo-autofill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 8px; color: var(--neon-purple);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: all 0.3s;
+      margin-bottom: 12px; width: 100%; justify-content: center;
+    }
+    .btn-demo-autofill:hover {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+      transform: translateY(-1px);
     }
     .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
     .nav-links a {
@@ -499,14 +517,143 @@
     .toast.show {
       transform: translateX(0);
     }
+
+    /* B2B2C SIDE PANEL */
+    .b2b2c-panel-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 4000;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .b2b2c-panel-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .b2b2c-panel {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 480px; max-width: 90vw;
+      background: var(--bg-secondary);
+      border-left: 1px solid rgba(168, 85, 247, 0.3);
+      z-index: 4001;
+      transform: translateX(100%);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5), -5px 0 40px rgba(168, 85, 247, 0.05);
+    }
+    .b2b2c-panel.active { transform: translateX(0); }
+
+    .b2b2c-panel-inner {
+      padding: 48px 36px;
+    }
+
+    .b2b2c-panel .panel-close {
+      position: absolute; top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50%; color: var(--text-secondary);
+      font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    .b2b2c-panel .panel-close:hover {
+      background: rgba(244, 63, 94, 0.15); border-color: var(--neon-pink); color: var(--neon-pink);
+    }
+
+    .b2b2c-panel .panel-icon {
+      width: 72px; height: 72px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(168, 85, 247, 0.2));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 24px;
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+      animation: panelPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes panelPop {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .b2b2c-panel h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .b2b2c-panel .panel-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .b2b2c-diagram {
+      perspective: 800px;
+      margin-bottom: 28px;
+    }
+    .b2b2c-diagram-inner {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 12px;
+      animation: b2b2cFloat 4s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+    @keyframes b2b2cFloat {
+      0%, 100% { transform: rotateX(3deg) translateY(0); }
+      50% { transform: rotateX(-3deg) translateY(-8px); }
+    }
+    .b2b2c-flow-row {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .b2b2c-node {
+      width: 90px; height: 90px;
+      border-radius: 18px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 1px;
+      border: 1px solid;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
+    }
+    .b2b2c-node:hover { transform: scale(1.08); }
+    .b2b2c-node .node-emoji { font-size: 1.6rem; margin-bottom: 4px; }
+    .b2b2c-node.biz1 {
+      background: rgba(59, 130, 246, 0.12); border-color: rgba(59, 130, 246, 0.4); color: var(--neon-blue);
+    }
+    .b2b2c-node.biz2 {
+      background: rgba(168, 85, 247, 0.12); border-color: rgba(168, 85, 247, 0.4); color: var(--neon-purple);
+    }
+    .b2b2c-node.consumer {
+      background: rgba(0, 229, 255, 0.12); border-color: rgba(0, 229, 255, 0.4); color: var(--neon-cyan);
+    }
+    .b2b2c-arrow-down {
+      display: flex; flex-direction: column; align-items: center;
+      color: var(--text-muted); font-size: 0.65rem; font-weight: 600; gap: 2px;
+    }
+    .b2b2c-arrow-down .arrow-v-line {
+      width: 2px; height: 24px;
+      background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple));
+      border-radius: 2px;
+    }
+
+    .b2b2c-explanation {
+      padding: 20px;
+      background: rgba(168, 85, 247, 0.04);
+      border: 1px solid rgba(168, 85, 247, 0.12);
+      border-radius: 14px; font-size: 0.92rem;
+      color: var(--text-secondary); line-height: 1.7;
+    }
+    .b2b2c-explanation strong { color: var(--neon-purple); }
   </style>
 </head>
 <body>
 
   <nav class="navbar" id="navbar">
     <a href="index.html" class="nav-brand">
-      <span class="logo-icon">N</span>
-      NextGen Edu
+      <img src="logo.png" alt="LearnAxis" class="brand-logo">
+      LearnAxis
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -572,7 +719,7 @@
             <span>💰 RS 45,000/semester</span>
           </div>
           <div class="program-highlight">✨ Fully online, UGC recognized</div>
-          <button class="btn btn-primary" onclick="showToast('Application portal opening soon for B.Sc. CS!')">Apply Now</button>
+          <button class="btn btn-primary" onclick="openB2B2CPanel(this.closest('.program-card').querySelector('.program-title').textContent)">Apply for Course</button>
         </div>
       </div>
 
@@ -663,7 +810,7 @@
     <h2 class="section-title reveal">Student Testimonials</h2>
     <div class="grid-3x1">
       <div class="testimonial-card tilt-card reveal">
-        <p class="quote">"The B.Sc. in CS from IIDS through NextGen gave me the foundation I needed. The fully online format meant I could intern while studying."</p>
+        <p class="quote">"The B.Sc. in CS from IIDS through LearnAxis gave me the foundation I needed. The fully online format meant I could intern while studying."</p>
         <div class="student-info">
           <div class="student-avatar">AK</div>
           <div>
@@ -709,6 +856,7 @@
             <option value="mtech">M.Tech in AI & Machine Learning (GTU)</option>
             <option value="pg">PG Diploma in Cybersecurity (EIC)</option>
           </select>
+          <button type="button" class="btn-demo-autofill" onclick="demoAutofillUniversity()">⚡ Demo Autofill</button>
           <button type="submit" class="btn btn-primary" style="width: 100%;">Apply Now</button>
         </form>
       </div>
@@ -716,7 +864,7 @@
   </div>
 
   <footer class="footer">
-    <div class="footer-brand">NextGen Edu</div>
+    <div class="footer-brand"><img src="logo.png" alt="LearnAxis" class="footer-logo">LearnAxis</div>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="instructor.html">Teach For Us</a>
@@ -725,10 +873,52 @@
       <a href="university.html">University</a>
       <a href="government.html">Public Sector</a>
     </div>
-    <p>© 2026 NextGen Edu. All rights reserved. The future of education, streamed.</p>
+    <p>© 2026 LearnAxis. All rights reserved. The future of education, streamed.</p>
   </footer>
 
   <div class="toast-container" id="toastContainer"></div>
+
+  <!-- B2B2C SIDE PANEL -->
+  <div class="b2b2c-panel-overlay" id="b2b2c-overlay" onclick="closeB2B2CPanel()"></div>
+  <div class="b2b2c-panel" id="b2b2c-panel">
+    <div class="b2b2c-panel-inner">
+      <button class="panel-close" onclick="closeB2B2CPanel()">✕</button>
+      <div class="panel-icon">🎓</div>
+      <h2>Application Received!</h2>
+      <p class="panel-subtitle" id="b2b2c-program-text">Your application for the selected program has been submitted.</p>
+
+      <div class="b2b2c-diagram">
+        <div class="b2b2c-diagram-inner">
+          <div class="b2b2c-flow-row">
+            <div class="b2b2c-node biz1">
+              <span class="node-emoji">🏛️</span>
+              University<br>(Business 1)
+            </div>
+            <div class="b2b2c-arrow-down">
+              <span>Partners</span>
+              <div class="arrow-v-line" style="width: 40px; height: 2px;"></div>
+            </div>
+            <div class="b2b2c-node biz2">
+              <span class="node-emoji">💻</span>
+              LearnAxis<br>(Business 2)
+            </div>
+          </div>
+          <div class="b2b2c-arrow-down">
+            <div class="arrow-v-line"></div>
+            <span>Delivers to</span>
+          </div>
+          <div class="b2b2c-node consumer">
+            <span class="node-emoji">🧑‍🎓</span>
+            You<br>(Consumer)
+          </div>
+        </div>
+      </div>
+
+      <div class="b2b2c-explanation">
+        <strong>B2B2C Explained:</strong> A traditional University (Business 1) uses our tech platform (Business 2) to deliver official degrees to you, the student (Consumer).
+      </div>
+    </div>
+  </div>
 
   <script>
     // Navbar scroll effect
@@ -800,6 +990,50 @@
           container.removeChild(toast);
         }, 300);
       }, 3000);
+    }
+
+    // B2B2C Side Panel
+    function openB2B2CPanel(programName) {
+      const panel = document.getElementById('b2b2c-panel');
+      const overlay = document.getElementById('b2b2c-overlay');
+      const text = document.getElementById('b2b2c-program-text');
+      text.textContent = `Your application for "${programName}" has been submitted successfully.`;
+      overlay.classList.add('active');
+      panel.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeB2B2CPanel() {
+      document.getElementById('b2b2c-panel').classList.remove('active');
+      document.getElementById('b2b2c-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeB2B2CPanel();
+    });
+    // ===== DEMO AUTOFILL =====
+    function demoAutofillUniversity() {
+      const form = document.querySelector('.enroll-form');
+      const textInputs = form.querySelectorAll('.form-input');
+      if (textInputs[0]) textInputs[0].value = 'Ravi Kumar';
+      if (textInputs[1]) textInputs[1].value = 'ravi.kumar@gmail.com';
+      const select = form.querySelector('.form-select');
+      if (select) select.value = 'bsc';
+
+      const allFields = form.querySelectorAll('.form-input, .form-select');
+      allFields.forEach((input, i) => {
+        setTimeout(() => {
+          input.style.borderColor = 'var(--neon-purple)';
+          input.style.boxShadow = '0 0 0 3px rgba(168, 85, 247, 0.15)';
+          setTimeout(() => {
+            input.style.borderColor = '';
+            input.style.boxShadow = '';
+          }, 800);
+        }, i * 120);
+      });
+
+      showToast('Application form auto-filled with demo data ⚡');
     }
   </script>
 </body>
